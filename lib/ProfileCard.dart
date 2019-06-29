@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_mate/usermodel.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+// TextStyles for cards to be displated
 TextStyle nameStyle =
     TextStyle(color: Colors.purple[700], fontSize: 28.0, fontFamily: 'Oxygen');
 TextStyle usernameStyle =

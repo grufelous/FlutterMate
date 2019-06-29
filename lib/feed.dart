@@ -23,14 +23,14 @@ class _FeedState extends State<Feed> {
   void getFeed() async {
     users = await Network().getFeed();
     setState(() {
-      status = 2;
+      status = 2;     // when successful load
     });
   }
 
   @override
   Widget build(BuildContext context) {
     if (status == 0) {
-      //loading
+      // loading
       return Scaffold(
         body: Center(
           child: Container(
@@ -41,7 +41,7 @@ class _FeedState extends State<Feed> {
         ),
       );
     } else if (status == 1) {
-      //error
+      // error
       return Scaffold(
         body: Center(
           child: Column(
@@ -61,6 +61,7 @@ class _FeedState extends State<Feed> {
         ),
       );
     } else if (status == 2) {
+      // displays cards of compatible users
       return Scaffold(
         body: Swiper(
           onTap: (i) async {

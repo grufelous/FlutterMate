@@ -9,10 +9,9 @@ import 'package:uni_links/uni_links.dart';
 import 'package:flutter_mate/network.dart';
 import 'package:flutter_mate/profile.dart';
 
-void main() => runApp(MyApp());
-
+void main() => runApp(MyApp()); 
 class MyApp extends StatefulWidget {
-  static GlobalKey<NavigatorState> navKeyStat;
+  static GlobalKey<NavigatorState> navKeyStat;      // navigator key for stful widget
   @override
   _MyAppState createState() => _MyAppState();
 }
@@ -20,10 +19,11 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   String message = "---";
   StreamSubscription _subs;
-  final navKey = GlobalKey<NavigatorState>();
+  final navKey = GlobalKey<NavigatorState>();     // 
 
   @override
   void initState() {
+    // initializes the deep-link listener and links the NavKey
     _initDeepLinkListener();
     super.initState();
     MyApp.navKeyStat = navKey;
@@ -31,11 +31,13 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void dispose() {
+    // dispose off deep-link listener and call dispose on super
     _disposeDeepLinkListener();
     super.dispose();
   }
 
   void _initDeepLinkListener() async {
+    
     _subs = getLinksStream().listen((String link) {
       print("init deeplink listener");
       _checkDeepLink(link);
@@ -43,9 +45,9 @@ class _MyAppState extends State<MyApp> {
   }
 
   void _checkDeepLink(String link) {
+    // checks deep-link and directly calls the profile page on succes
     if (link != null) {
       String code = link.substring(link.indexOf(RegExp('code=')) + 5);
-
       proceedToProfile(code);
     }
   }
@@ -56,11 +58,11 @@ class _MyAppState extends State<MyApp> {
     bool p = await Network().loginWithGitHub(code);
     // remove loading bar
     navKey.currentState.pop();
-
-    if (p) {
+    if (p) {                                                  // on successful load of user profile
       navKey.currentState.pushReplacementNamed("/profile");
-    } else {
+    } else {                                                  // unable to load the user profile
       showDialog(
+        //eror dialog
           context: StartScreen.popContext,
           builder: (context) {
             return AlertDialog(
@@ -71,6 +73,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   void _disposeDeepLinkListener() {
+    // 
     print("dispose deeplink listener");
     if (_subs != null) {
       _subs.cancel();
@@ -95,6 +98,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    // builds main app UI with the routes configured
     return MaterialApp(
       navigatorKey: navKey,
       debugShowCheckedModeBanner: false,
@@ -103,9 +107,10 @@ class _MyAppState extends State<MyApp> {
         primarySwatch: Colors.blue,
       ),
       routes: {
-        '/': (context) => StartScreen(),
-        '/profile': (context) => Profile(),
-        '/feed': (context) => Feed()
+        // the various routes used
+        '/': (context) => StartScreen(),    // landing page
+        '/profile': (context) => Profile(), // load logged-in user's profile
+        '/feed': (context) => Feed()        // load feed for user
       },
     );
   }

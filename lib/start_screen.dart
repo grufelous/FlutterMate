@@ -5,6 +5,7 @@ import 'package:flutter_mate/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class StartScreen extends StatelessWidget {
+  // Screen for logging in
   static BuildContext popContext;
 
   @override

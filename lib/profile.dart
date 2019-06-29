@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_mate/main.dart';
 
+//TextStyles for use in Profile
 TextStyle nameStyle = TextStyle(color: Colors.purple[700], fontSize: 28.0, fontFamily: 'Oxygen');
 TextStyle usernameStyle = TextStyle(color: Colors.black87, fontSize: 18.0, fontFamily: 'Oxygen');
 TextStyle aboutStyle = TextStyle(color: Colors.black87, fontSize: 17.0, fontFamily: 'Oxygen');
@@ -30,11 +31,9 @@ class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
+    // defines profile UI for the logged-in user
     return MaterialApp(
       home: Scaffold(
-//        appBar: AppBar(
-//
-//        ),
         body: StreamBuilder<DocumentSnapshot>(
           stream: dc,
           builder: (context, snapshot) {

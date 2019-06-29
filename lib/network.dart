@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Network {
+  // helper singleton class for fetching users
   static final Network _singleton = Network._internal();
   FirebaseUser _user;
 
@@ -38,11 +39,11 @@ class Network {
         GitHubLoginResponse.fromJson(json.decode(response.body));
 
     print(loginResponse);
-    //FIREBASE STUFF
+    //FIREBASE STUFF: user credential from GitHub login
     final AuthCredential credential = GithubAuthProvider.getCredential(
       token: loginResponse.accessToken,
     );
-
+    //user we got from using our credential
     final FirebaseUser user =
         await FirebaseAuth.instance.signInWithCredential(credential);
     _user = user;
@@ -60,22 +61,21 @@ class Network {
     print("===========================");
     print(serverResponse.statusCode);
 
-    if (serverResponse.statusCode == 200) {
-      return true;
-    } else {
-      return false;
-    }
+    return (serverResponse.statusCode == 200);
+    // if (serverResponse.statusCode == 200) {
+    //   return true;
+    // } else {
+    //   return false;
+    // }
   }
 
   Future<List<User>> getFeed() async {
     final response = await http.get(serverId + "/team", headers: {
       "authorisation": await user.getIdToken(),
     });
-
+    // gets User list from server
     Iterable l = json.decode(response.body);
     List<User> users = l.map((model) => User.fromJson(model)).toList();
-
-
     return users;
   }
 }

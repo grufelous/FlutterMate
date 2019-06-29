@@ -1,11 +1,11 @@
-//GITHUB REQUEST-RESPONSE MODELS
+// GITHUB REQUEST-RESPONSE MODELS
 class GitHubLoginRequest {
   String clientId;
   String clientSecret;
   String code;
 
   GitHubLoginRequest({this.clientId, this.clientSecret, this.code});
-
+  // convert to JSON
   dynamic toJson() => {
         "client_id": clientId,
         "client_secret": clientSecret,
@@ -22,7 +22,7 @@ class GitHubLoginResponse {
 
   GitHubLoginResponse(
       {this.accessToken, this.tokenType, this.scope, this.rawResponse});
-
+  // create response from JSON we get
   factory GitHubLoginResponse.fromJson(Map<String, dynamic> json) =>
       GitHubLoginResponse(
           accessToken: json["access_token"],
